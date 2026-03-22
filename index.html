@@ -269,6 +269,129 @@
     font-size: 0.9rem;
   }
 
+  /* MIX MODAL & BLUR STYLING */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px); /* Adds the background blur */
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-content {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--card-radius);
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--shadow);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+  }
+
+  .modal-overlay.show .modal-content {
+    transform: translateY(0);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+
+  .modal-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--text-primary);
+  }
+
+  .close-btn {
+    background: var(--card-bg);
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--text-primary);
+    cursor: pointer;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mix-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .mix-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+  }
+
+  .mix-cover {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--border-color);
+  }
+
+  .mix-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .mix-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+  }
+
+  .untitled-tag {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .mix-link {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 6px 12px;
+    background: var(--text-primary);
+    color: var(--bg-color);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-align: center;
+    align-self: flex-start;
+  }
+
   @media (max-width: 600px) {
     .nav { flex-direction: column; gap: 15px; }
     .search { max-width: 100%; }
@@ -284,6 +407,7 @@
       <input id="searchInput" type="text" placeholder="Search for a track..." />
     </div>
     <div class="nav-actions">
+      <button class="nav-btn" id="mixBtn">Bennyboyblue121's Mix</button>
       <button class="nav-btn" id="settingsBtn">Settings</button>
       <a class="nav-btn" id="instagramBtn" target="_blank">Instagram</a>
     </div>
@@ -308,6 +432,36 @@
   <button class="filter-btn" id="toggleTheme">Toggle Dark Mode</button>
 </div>
 
+<div class="modal-overlay" id="mixModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Bennyboyblue121's Mixes</h2>
+      <button class="close-btn" id="closeMixModal">&times;</button>
+    </div>
+    <div class="mix-list">
+      
+      <div class="mix-item">
+        <img src="Img/Bennyboyblue121's Mix/Bennyboyblue121's Mix-artwork.jpg" alt="Mix Cover" class="mix-cover">
+        <div class="mix-info">
+          <h3>Bennyboyblue121's Mix</h3>
+          <p class="untitled-tag">only available on [untitled]</p>
+          <a href="https://untitled.stream/library/project/fAAYom5naFnjNz0q1rkdG" class="mix-link" target="_blank">Listen Now</a>
+        </div>
+      </div>
+
+      <div class="mix-item">
+        <img src="Img/Bennyboyblue121's Mix/Bennyboyblue121's Mix 2-artwork.jpg" alt="Mix Cover" class="mix-cover">
+        <div class="mix-info">
+          <h3>Bennyboyblue121's Mix 2</h3>
+          <p class="untitled-tag">only available on [untitled]</p>
+          <a href="https://untitled.stream/library/project/EpYRUA5OTFjOWEV4UbHUb" class="mix-link" target="_blank">Listen Now</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <footer>© 2026 BENNYBOYBLUE121</footer>
 
 <script>
@@ -318,9 +472,9 @@ const SITE_SETTINGS = {
 };
 
 const musicLibrary = [
-  { title: "BITTERSWEET POETRY", file: "music/Bittersweet Poetry.mp3", spotify: "https://open.spotify.com/embed/episode/37oAERRjVIK5nqMtKQhvf5" },
-  { title: "FLASHING LIGHTS 2", file: "music/Flashing Lights 2.mp3", spotify: "https://open.spotify.com/embed/episode/7hBH2dyzqrdVB4ffZ0z0ld" },
-  { title: "NEVER SEE ME AGAIN", file: "music/Never see me again.mp3", spotify: "https://open.spotify.com/embed/episode/4H97hREdrYk36DdRcVRn4f" },
+  { title: "Bittersweet Poetry", file: "music/Bittersweet Poetry.mp3", spotify: "https://open.spotify.com/embed/episode/37oAERRjVIK5nqMtKQhvf5" },
+  { title: "Flashing Lights 2", file: "music/Flashing Lights 2.mp3", spotify: "https://open.spotify.com/embed/episode/7hBH2dyzqrdVB4ffZ0z0ld" },
+  { title: "Never See Me Again", file: "music/Never see me again.mp3", spotify: "https://open.spotify.com/embed/episode/4H97hREdrYk36DdRcVRn4f" },
   { title: "After You", file: "music/After You.mp3", spotify: "https://open.spotify.com/embed/episode/6yqQcwAmkESBuvedza3xh9" },
   { title: "Good Friday", file: "music/Good Friday.mp3", spotify: "https://open.spotify.com/embed/episode/5zbqsCgxkKg3mqVzrnj9TQ" },
   { title: "Gossip Files", file: "music/Dreamkillers (Gossip Files).mp3", spotify: "https://open.spotify.com/embed/episode/0uzMwMZtxtdY7HyyM62KxZ" },
@@ -355,7 +509,8 @@ const musicLibrary = [
   { title: "Brothers", file: "music/Brothers.mp3", spotify: "https://open.spotify.com/embed/episode/5On3LGGWGHuGwBGT9ZRXlB" },
   { title: "Love Love Love", file: "music/Love Love Love.mp3", spotify: "https://open.spotify.com/embed/episode/41UqrHQbgzUt3fEWNkTorI" },
   { title: "TAKE OFF YOUR DRESS", file: "music/TAKE OFF YOUR DRESS.mp3", spotify: "https://open.spotify.com/embed/episode/6W0TmRkfEkK8t9Ad1mCoBf" },
-  { title: "Deja Vu", file: "music/Deja Vu.mp3", spotify: "https://open.spotify.com/embed/episode/2ScAoBidb91gjj2Ma7qgRh" }
+  { title: "Deja Vu", file: "music/Deja Vu.mp3", spotify: "https://open.spotify.com/embed/episode/2ScAoBidb91gjj2Ma7qgRh" },
+  { title: "L.A Monster", file: "music/L.A Monster.mp3", spotify: "https://open.spotify.com/embed/episode/0VGlCsSrgwdnZSGlrMk7VZ" }
 ];
 
 // --- INITIALIZATION --- //
@@ -367,7 +522,6 @@ function createTrackCard(track) {
   card.className = 'track-card';
   card.dataset.title = track.title.toLowerCase();
 
-  // "Spotify Link" replacement applied here
   let spotifySection = track.spotify 
     ? `<details>
          <summary>Spotify Link</summary>
@@ -431,13 +585,34 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
+// --- MODAL LOGIC --- //
+const mixBtn = document.getElementById('mixBtn');
+const mixModal = document.getElementById('mixModal');
+const closeMixModal = document.getElementById('closeMixModal');
+
+// Open modal
+mixBtn.addEventListener('click', () => {
+  mixModal.classList.add('show');
+});
+
+// Close modal when X is clicked
+closeMixModal.addEventListener('click', () => {
+  mixModal.classList.remove('show');
+});
+
+// Close modal when clicking outside the box
+mixModal.addEventListener('click', (e) => {
+  if (e.target === mixModal) {
+    mixModal.classList.remove('show');
+  }
+});
+
 // --- UPDATED THEME LOGIC --- //
 const settingsPanel = document.getElementById('settingsPanel');
 document.getElementById('settingsBtn').onclick = () => settingsPanel.classList.toggle('show');
 
 const toggleThemeBtn = document.getElementById('toggleTheme');
 
-// Function to set theme
 const applyTheme = (theme) => {
   if (theme === 'dark') {
     document.body.classList.add('dark');
@@ -446,9 +621,6 @@ const applyTheme = (theme) => {
   }
 };
 
-// Initial check: 
-// 1. Check if user manually saved a preference
-// 2. If not, use the device's system preference
 const savedTheme = localStorage.getItem('theme');
 const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
