@@ -70,11 +70,10 @@
     gap: 10px;
   }
 
-  /* NEW: Logo Styling */
   .site-logo {
     height: 30px;
     width: auto;
-    border-radius: 6px; /* Optional: rounds the logo slightly */
+    border-radius: 6px; 
   }
 
   .search {
@@ -120,7 +119,7 @@
   }
 
   /* =========================
-     NEW: CAROUSEL STYLING 
+     CAROUSEL STYLING 
      ========================= */
   .carousel-wrapper {
     max-width: 1200px;
@@ -151,7 +150,6 @@
     padding: 40px;
   }
 
-  /* Dark gradient to ensure text is always readable over pictures */
   .carousel-slide::before {
     content: '';
     position: absolute;
@@ -166,7 +164,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Pushes title up, text/button down */
+    justify-content: space-between; 
   }
 
   .carousel-title {
@@ -232,7 +230,6 @@
     background: var(--card-bg);
   }
 
-  /* Position arrows outside the box slightly */
   .prev-arrow { left: 0px; }
   .next-arrow { right: 0px; }
 
@@ -383,6 +380,7 @@
     color: var(--text-secondary);
   }
 
+  /* MODALS & OVERLAYS */
   .settings-overlay {
     position: fixed;
     bottom: 20px;
@@ -527,9 +525,52 @@
     align-self: flex-start;
   }
 
+  /* NEW: Donation Popup Styles */
+  .donation-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .btn-donate {
+    background: var(--text-primary);
+    color: var(--bg-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .btn-no-thanks {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+  }
+  
+  .btn-no-thanks:hover {
+    background: var(--card-bg);
+  }
+
+  .settings-checkbox-row {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+
   @media (max-width: 600px) {
     .nav { flex-direction: column; gap: 15px; }
     .search { max-width: 100%; }
+    .donation-buttons { flex-direction: column; }
   }
 </style>
 </head>
@@ -553,12 +594,12 @@
 </header>
 
 <div class="carousel-wrapper">
-  <button class="carousel-arrow prev-arrow" id="prevSlide">&#10094;</button>
+  <button class="carousel-arrow prev-arrow" id="prevSlide">❮</button>
   <div class="carousel-container">
     <div class="carousel-track" id="carouselTrack">
       </div>
   </div>
-  <button class="carousel-arrow next-arrow" id="nextSlide">&#10095;</button>
+  <button class="carousel-arrow next-arrow" id="nextSlide">❯</button>
 </div>
 
 <div class="container">
@@ -576,7 +617,12 @@
 
 <div class="settings-overlay" id="settingsPanel">
   <h4>Preferences</h4>
-  <button class="filter-btn" id="toggleTheme">Toggle Dark Mode</button>
+  <button class="filter-btn" id="toggleTheme" style="width: 100%;">Toggle Dark Mode</button>
+  
+  <div class="settings-checkbox-row">
+    <input type="checkbox" id="hideDonationToggle">
+    <label for="hideDonationToggle">Don't show donation popup</label>
+  </div>
 </div>
 
 <div class="modal-overlay" id="mixModal">
@@ -609,18 +655,32 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="donationModal">
+  <div class="modal-content">
+    <div class="modal-header" style="margin-bottom: 10px;">
+      <h2>Support Bennyboyblue121 ☕</h2>
+    </div>
+    <p style="margin: 0; color: var(--text-secondary); line-height: 1.5;">
+      If you enjoy the music and mixes, consider buying me a coffee to help support the site!
+    </p>
+    <div class="donation-buttons">
+      <button class="btn-no-thanks" id="closeDonationModalBtn">No Thanks</button>
+      <a href="https://buymeacoffee.com/bennyboyblue121" class="btn-donate" id="donateLinkBtn" target="_blank">Donate</a>
+    </div>
+  </div>
+</div>
+
 <footer>© 2026 BENNYBOYBLUE121</footer>
 
 <script>
 // --- CONFIGURATION & DATA --- //
 const SITE_SETTINGS = {
   showDownloadButton: true,
-  instagramLink: "https://www.instagram.com/bennyboyblue121/"
+  instagramLink: "https://www.instagram.com/bennyboyblue121/",
+  carouselInterval: 7000, // 7 seconds
+  buyMeACoffeeLink: "https://buymeacoffee.com/bennyboyblue121" // <--- ADD YOUR DONATION LINK HERE
 };
 
-// ==========================================
-// EASILY CHANGE YOUR 3 CAROUSEL ITEMS HERE
-// ==========================================
 const carouselData = [
   {
     title: "Bennyboyblue121's Discord",
@@ -630,11 +690,11 @@ const carouselData = [
     link: "https://discord.com/invite/dn8hpf2qpG"
   },
   {
-    title: "This is Bennyboyblue121",
-    text: "Listen to This is Bennyboyblue121 playlist on Spotify",
+    title: "Donate to Support Bennyboyblue121",
+    text: "I don't make any money from anything I do, so pls buy me a coffee if you wanna support me :)",
     image: "https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    buttonText: "Listen on Spotify",
-    link: "https://open.spotify.com/playlist/7ACuXLRFw9yv8DcaUqRdI1?si=2c16aad45be3462b"
+    buttonText: "Donate",
+    link: "https://buymeacoffee.com/bennyboyblue121"
   },
   {
     title: "New partnership with YeFan911",
@@ -705,13 +765,13 @@ document.getElementById('instagramBtn').href = SITE_SETTINGS.instagramLink;
 // --- BUILD CAROUSEL --- //
 const track = document.getElementById('carouselTrack');
 let currentSlide = 0;
+let slideTimer;
 
 carouselData.forEach(data => {
   const slide = document.createElement('div');
   slide.className = 'carousel-slide';
   slide.style.backgroundImage = `url('${data.image}')`;
   
-  // Conditionally add button if text exists
   let buttonHTML = data.buttonText ? `<a href="${data.link}" class="carousel-action-btn">${data.buttonText}</a>` : '';
 
   slide.innerHTML = `
@@ -730,15 +790,29 @@ const updateCarousel = () => {
   track.style.transform = `translateX(-${currentSlide * 100}%)`;
 };
 
-document.getElementById('nextSlide').addEventListener('click', () => {
+const nextSlide = () => {
   currentSlide = (currentSlide + 1) % carouselData.length;
   updateCarousel();
+};
+
+const startCarouselTimer = () => {
+  clearInterval(slideTimer);
+  slideTimer = setInterval(nextSlide, SITE_SETTINGS.carouselInterval);
+};
+
+document.getElementById('nextSlide').addEventListener('click', () => {
+  nextSlide();
+  startCarouselTimer();
 });
 
 document.getElementById('prevSlide').addEventListener('click', () => {
   currentSlide = (currentSlide - 1 + carouselData.length) % carouselData.length;
   updateCarousel();
+  startCarouselTimer();
 });
+
+// Start the auto-rotation when the page loads
+startCarouselTimer();
 
 // --- BUILD TRACK GRID --- //
 const grid = document.getElementById('trackGrid');
@@ -810,7 +884,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
-// --- MODAL LOGIC --- //
+// --- MIX MODAL LOGIC --- //
 const mixBtn = document.getElementById('mixBtn');
 const mixModal = document.getElementById('mixModal');
 const closeMixModal = document.getElementById('closeMixModal');
@@ -828,6 +902,39 @@ mixModal.addEventListener('click', (e) => {
     mixModal.classList.remove('show');
   }
 });
+
+// --- DONATION MODAL LOGIC --- //
+const donationModal = document.getElementById('donationModal');
+const closeDonationModalBtn = document.getElementById('closeDonationModalBtn');
+const donateLinkBtn = document.getElementById('donateLinkBtn');
+const hideDonationToggle = document.getElementById('hideDonationToggle');
+
+donateLinkBtn.href = SITE_SETTINGS.buyMeACoffeeLink;
+
+// Check local storage to see if they've opted out
+const userDisabledDonationPopup = localStorage.getItem('hideDonationPopup') === 'true';
+hideDonationToggle.checked = userDisabledDonationPopup;
+
+if (!userDisabledDonationPopup) {
+  // Show popup 1 second after page loads
+  setTimeout(() => {
+    donationModal.classList.add('show');
+  }, 1000);
+}
+
+closeDonationModalBtn.addEventListener('click', () => {
+  donationModal.classList.remove('show');
+});
+
+donateLinkBtn.addEventListener('click', () => {
+  donationModal.classList.remove('show');
+});
+
+// Update preference when setting is toggled
+hideDonationToggle.addEventListener('change', (e) => {
+  localStorage.setItem('hideDonationPopup', e.target.checked);
+});
+
 
 // --- THEME LOGIC --- //
 const settingsPanel = document.getElementById('settingsPanel');
