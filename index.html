@@ -65,6 +65,16 @@
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* NEW: Logo Styling */
+  .site-logo {
+    height: 30px;
+    width: auto;
+    border-radius: 6px; /* Optional: rounds the logo slightly */
   }
 
   .search {
@@ -109,6 +119,135 @@
     background: var(--card-bg);
   }
 
+  /* =========================
+     NEW: CAROUSEL STYLING 
+     ========================= */
+  .carousel-wrapper {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+    position: relative;
+  }
+
+  .carousel-container {
+    overflow: hidden;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 400px;
+  }
+
+  .carousel-slide {
+    min-width: 100%;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+  }
+
+  /* Dark gradient to ensure text is always readable over pictures */
+  .carousel-slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 100%);
+    z-index: 1;
+  }
+
+  .carousel-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes title up, text/button down */
+  }
+
+  .carousel-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  .carousel-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    max-width: 600px;
+  }
+
+  .carousel-text {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #f5f5f7;
+    line-height: 1.4;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+  }
+
+  .carousel-action-btn {
+    padding: 10px 24px;
+    background: #ffffff;
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 20px;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .carousel-action-btn:hover {
+    background: #e5e5ea;
+    transform: scale(1.05);
+  }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: background 0.2s;
+  }
+
+  .carousel-arrow:hover {
+    background: var(--card-bg);
+  }
+
+  /* Position arrows outside the box slightly */
+  .prev-arrow { left: 0px; }
+  .next-arrow { right: 0px; }
+
+  @media (max-width: 768px) {
+    .carousel-track { height: 300px; }
+    .carousel-title { font-size: 1.8rem; }
+    .carousel-text { font-size: 1rem; }
+    .prev-arrow { left: 10px; }
+    .next-arrow { right: 10px; }
+  }
+
+
+  /* =========================
+     ORIGINAL STYLES BELOW
+     ========================= */
   .container {
     max-width: 1200px;
     margin: auto;
@@ -150,7 +289,6 @@
     gap: 25px;
   }
 
-  /* TRACK CARD STYLING */
   .track-card {
     background: var(--card-bg);
     border-radius: var(--card-radius);
@@ -199,7 +337,6 @@
     opacity: 0.8;
   }
 
-  /* SPOTIFY ACCORDION */
   details {
     border-top: 1px solid var(--border-color);
     padding-top: 10px;
@@ -246,7 +383,6 @@
     color: var(--text-secondary);
   }
 
-  /* SETTINGS OVERLAY */
   .settings-overlay {
     position: fixed;
     bottom: 20px;
@@ -269,12 +405,11 @@
     font-size: 0.9rem;
   }
 
-  /* MIX MODAL & BLUR STYLING */
   .modal-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(12px); /* Adds the background blur */
+    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 999;
     display: flex;
@@ -402,7 +537,10 @@
 <body>
 <header>
   <div class="nav">
-    <div class="brand">BENNYBOYBLUE121</div>
+    <div class="brand">
+      <img src="Img/TuffCat.jpg" alt="Logo" class="site-logo" onerror="this.style.display='none'"> 
+      BENNYBOYBLUE121
+    </div>
     <div class="search">
       <input id="searchInput" type="text" placeholder="Search for a track..." />
     </div>
@@ -413,6 +551,15 @@
     </div>
   </div>
 </header>
+
+<div class="carousel-wrapper">
+  <button class="carousel-arrow prev-arrow" id="prevSlide">&#10094;</button>
+  <div class="carousel-container">
+    <div class="carousel-track" id="carouselTrack">
+      </div>
+  </div>
+  <button class="carousel-arrow next-arrow" id="nextSlide">&#10095;</button>
+</div>
 
 <div class="container">
   <div class="filters" id="filterContainer">
@@ -436,7 +583,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h2>Bennyboyblue121's Mixes</h2>
-      <button class="close-btn" id="closeMixModal">&times;</button>
+      <button class="close-btn" id="closeMixModal">×</button>
     </div>
     <div class="mix-list">
       
@@ -471,50 +618,129 @@ const SITE_SETTINGS = {
   instagramLink: "https://www.instagram.com/bennyboyblue121/"
 };
 
+// ==========================================
+// EASILY CHANGE YOUR 3 CAROUSEL ITEMS HERE
+// ==========================================
+const carouselData = [
+  {
+    title: "Bennyboyblue121's Discord",
+    text: "Join the tuff discord server",
+    image: "https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    buttonText: "Join Discord",
+    link: "https://discord.com/invite/dn8hpf2qpG"
+  },
+  {
+    title: "This is Bennyboyblue121",
+    text: "Listen to This is Bennyboyblue121 playlist on Spotify",
+    image: "https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    buttonText: "Listen on Spotify",
+    link: "https://open.spotify.com/playlist/7ACuXLRFw9yv8DcaUqRdI1?si=2c16aad45be3462b"
+  },
+  {
+    title: "New partnership with YeFan911",
+    text: "Join YeFan911's Discord for tuff Yedits",
+    image: "https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    buttonText: "Join YeFan911's Discord",
+    link: "https://discord.gg/SHqfds5buP"
+  }
+];
+
 const musicLibrary = [
   { title: "Bittersweet Poetry", file: "music/Bittersweet Poetry.mp3", spotify: "https://open.spotify.com/embed/episode/37oAERRjVIK5nqMtKQhvf5" },
-  { title: "Flashing Lights 2", file: "music/Flashing Lights 2.mp3", spotify: "https://open.spotify.com/embed/episode/7hBH2dyzqrdVB4ffZ0z0ld" },
+  { title: "Flashing Lights 2", file: "music/Flashing Lights 2.mp3", spotify: "https://open.spotify.com/embed/episode/2Xyg920wBw6gwIiPPBVuPp" },
   { title: "Never See Me Again", file: "music/Never see me again.mp3", spotify: "https://open.spotify.com/embed/episode/4H97hREdrYk36DdRcVRn4f" },
-  { title: "After You", file: "music/After You.mp3", spotify: "https://open.spotify.com/embed/episode/6yqQcwAmkESBuvedza3xh9" },
-  { title: "Good Friday", file: "music/Good Friday.mp3", spotify: "https://open.spotify.com/embed/episode/5zbqsCgxkKg3mqVzrnj9TQ" },
-  { title: "Gossip Files", file: "music/Dreamkillers (Gossip Files).mp3", spotify: "https://open.spotify.com/embed/episode/0uzMwMZtxtdY7HyyM62KxZ" },
-  { title: "Throw Money Everywhere", file: "music/Throw Money Everywhere.mp3", spotify: "https://open.spotify.com/embed/episode/37EWRnEX4E2svOJjj05OgM" },
-  { title: "New Body", file: "music/New Body.mp3", spotify: "https://open.spotify.com/embed/episode/0qIujK23JShryWxdmtqsKN" },
-  { title: "Ghost Town (9 Minute Edit)", file: "music/Ghost Town (9 Minute Edit).mp3", spotify: "https://open.spotify.com/embed/episode/5Z1OFNsyC3AMlQbLwse6Vl" },
-  { title: "Awesome", file: "music/Awesome.mp3", spotify: "https://open.spotify.com/embed/episode/5EyI0BIxQQfN76JvwvnTHt" },
-  { title: "GOOD (DON'T DIE)", file: "music/GOOD (DON'T DIE).mp3", spotify: "https://open.spotify.com/embed/episode/0BBQACuLwMNrgFPO5zuort" },
-  { title: "Mama's Boyfriend", file: "music/Mama's Boyfriend.mp3", spotify: "https://open.spotify.com/embed/episode/0CZGDpanYQv3qEJf4inErV" },
-  { title: "Hell of a Life ( V9 )", file: "music/Hell of a Life ( V9 ).mp3", spotify: "https://open.spotify.com/embed/episode/44hpLJ87Is7ld8vmPC04lM" },
-  { title: "Bulletproof", file: "music/Bulletproof.mp3", spotify: "https://open.spotify.com/embed/episode/3Cn9VKvu5JMVmimy70Fb2k" },
-  { title: "FLOWERS", file: "music/FLOWERS.mp3", spotify: "https://open.spotify.com/embed/episode/3FqcYCZjYjkaSLDi7fzXNl" },
-  { title: "The Storm", file: "music/The Storm.mp3", spotify: "https://open.spotify.com/embed/episode/191eemMgxAXegM8mSjwquV" },
+  { title: "After You", file: "music/After You.mp3", spotify: "https://open.spotify.com/embed/episode/5c0rTCeRPsdvDil6yll3ZV" },
+  { title: "Good Friday", file: "music/Good Friday.mp3", spotify: "https://open.spotify.com/embed/episode/5o4Nj1in2eGm33UzJr0QH0" },
+  { title: "Gossip Files", file: "music/Dreamkillers (Gossip Files).mp3", spotify: "https://open.spotify.com/embed/episode/1TSPd51lsxLawf8GWesIuP" },
+  { title: "Throw Money Everywhere", file: "music/Throw Money Everywhere.mp3", spotify: "https://open.spotify.com/embed/episode/0L1GGIU1RSEfDGvl7NInLa" },
+  { title: "New Body", file: "music/New Body.mp3", spotify: "https://open.spotify.com/embed/episode/0vQwnUpTaOAIxZf0WwcRwU" },
+  { title: "Ghost Town (9 Minute Edit)", file: "music/Ghost Town (9 Minute Edit).mp3", spotify: "https://open.spotify.com/embed/episode/0WsV9ViqthxzgiVrfOL0iK" },
+  { title: "Awesome", file: "music/Awesome.mp3", spotify: "https://open.spotify.com/embed/episode/4CfZXnBRynJKk1wS2BYThc" },
+  { title: "GOOD (DON'T DIE)", file: "music/GOOD (DON'T DIE).mp3", spotify: "https://open.spotify.com/embed/episode/7eGLedtvt7Pp9r7UfbjHm6" },
+  { title: "Mama's Boyfriend", file: "music/Mama's Boyfriend.mp3", spotify: "https://open.spotify.com/embed/episode/4l4xpAT4qXbL6nNzwVdXCU" },
+  { title: "Hell of a Life ( V9 )", file: "music/Hell of a Life ( V9 ).mp3", spotify: "https://open.spotify.com/embed/episode/60aoYp4hJILruYruWwx7EG" },
+  { title: "Bulletproof", file: "music/Bulletproof.mp3", spotify: "https://open.spotify.com/embed/episode/5HjOEHYdqd0UzcLMYR4Alq" },
+  { title: "FLOWERS", file: "music/FLOWERS.mp3", spotify: "https://open.spotify.com/embed/episode/3AiVrJAEssX3kqtEKtqLEW" },
+  { title: "The Storm", file: "music/The Storm.mp3", spotify: "https://open.spotify.com/embed/episode/3Llk90jGIQJ2ZfLDRc6sc0" },
   { title: "HOLD TIGHT", file: "music/Hold Tight.mp3", spotify: "https://open.spotify.com/embed/episode/6IiCluNO0Indjc0uKUrlgm" },
-  { title: "POWER Remix", file: "music/POWER Remix.mp3", spotify: "https://open.spotify.com/embed/episode/4WefbrYFjTuHViVwtlKW5L" },
-  { title: "Can U Be", file: "music/Can U Be.mp3", spotify: "https://open.spotify.com/embed/episode/26WAicJC7UL7yof1wtKa0o" },
-  { title: "Christian Dior Denim Flow", file: "music/Christian Dior Denim Flow.mp3", spotify: "https://open.spotify.com/embed/episode/2fzOoVtgFAF4apXCpxN2CQ" },
-  { title: "CASH TO BURN", file: "music/Cash to Burn.mp3", spotify: "https://open.spotify.com/embed/episode/0YKtuWKIzK4cseKtdUVFQr" },
+  { title: "POWER Remix", file: "music/POWER Remix.mp3", spotify: "https://open.spotify.com/embed/episode/7LrozxrlPRJfSlLV2tcns0" },
+  { title: "Can U Be", file: "music/Can U Be.mp3", spotify: "https://open.spotify.com/embed/episode/28XZUYCoXOk2hM5FWBuuh2  " },
+  { title: "Christian Dior Denim Flow", file: "music/Christian Dior Denim Flow.mp3", spotify: "https://open.spotify.com/embed/episode/1qXGoeb2wRVVazqBvHhBXQ" },
+  { title: "CASH TO BURN", file: "music/Cash to Burn.mp3", spotify: "https://open.spotify.com/embed/episode/01bpqHJ4vX9FfBkNLD7va9" },
   { title: "PABLO", file: "music/PABLO.mp3", spotify: "https://open.spotify.com/embed/episode/11nvKmUA96HtJ1OwSHiXHd" },
-  { title: "Lift Yourself (Edit)", file: "music/Lift Yourself (Edit).mp3", spotify: "https://open.spotify.com/embed/episode/17KEpxPWJbbhagL3AlufKD" },
-  { title: "All the love", file: "music/All the love.mp3", spotify: "https://open.spotify.com/embed/episode/2vHsxuz3whUg7fpwjIW9AK" },
+  { title: "Lift Yourself (Edit)", file: "music/Lift Yourself (Edit).mp3", spotify: "https://open.spotify.com/embed/episode/0sQbi6wddHYmjJN6rrsNZW" },
+  { title: "All the love (Old)", file: "music/All the love.mp3", spotify: "https://open.spotify.com/embed/episode/3RWPaUcBeZTT3mj5zmVase" },
   { title: "All The Love (Mexico City 2026)", file: "music/All The Love (Mexico City 2026).mp3", spotify: "https://open.spotify.com/embed/episode/4RVXsDS7FUlWaArzIOdhHa" },
   { title: "Stronger (Mexico City 2026)", file: "music/Stronger (Mexico City 2026).mp3", spotify: null },
   { title: "Future Bounce", file: "music/Future Bounce.mp3", spotify: "https://open.spotify.com/embed/episode/5WRoWTZHC4TEYAzlKYoNMH" },
   { title: "Violent Crimes (11 Minute Edit)", file: "music/Violent Crimes (11 Minute Edit).mp3", spotify: "https://open.spotify.com/embed/episode/1tp1a7iE4o4kwNDgBoitLz" },
   { title: "Ice Cube", file: "music/Ice Cube.mp3", spotify: null },
   { title: "EVERYBODY", file: "music/EVERYBODY.mp3", spotify: "https://open.spotify.com/embed/episode/7dIug3G4O48fqDmUXbmNpi" },
-  { title: "Armina", file: "music/Armina (Pastelle Collective).mp3", spotify: "https://open.spotify.com/embed/episode/0c9hSeXbYEThDswX33afjP" },
-  { title: "All Dreams Real", file: "music/All Dreams Real.mp3", spotify: "https://open.spotify.com/embed/episode/6gZk6jZRMQPybMED9MNS9E" },
+  { title: "Armina", file: "music/Armina (Pastelle Collective).mp3", spotify: "https://open.spotify.com/embed/episode/2uu3AymXS1QIVMoyeursXb" },
+  { title: "All Dreams Real", file: "music/All Dreams Real.mp3", spotify: "https://open.spotify.com/embed/episode/5DXUMDoosJrvpBC02fWxpW" },
   { title: "Never Coming Back", file: "music/Never Coming Back.mp3", spotify: null },
   { title: "SOUNDS", file: "music/Sounds.wav", spotify: "https://open.spotify.com/embed/episode/5Fi3sgjmmmq5HpDivyGNfE" },
-  { title: "Brothers", file: "music/Brothers.mp3", spotify: "https://open.spotify.com/embed/episode/5On3LGGWGHuGwBGT9ZRXlB" },
-  { title: "Love Love Love", file: "music/Love Love Love.mp3", spotify: "https://open.spotify.com/embed/episode/41UqrHQbgzUt3fEWNkTorI" },
-  { title: "TAKE OFF YOUR DRESS", file: "music/TAKE OFF YOUR DRESS.mp3", spotify: "https://open.spotify.com/embed/episode/6W0TmRkfEkK8t9Ad1mCoBf" },
-  { title: "Deja Vu", file: "music/Deja Vu.mp3", spotify: "https://open.spotify.com/embed/episode/2ScAoBidb91gjj2Ma7qgRh" },
-  { title: "L.A Monster", file: "music/L.A Monster.mp3", spotify: "https://open.spotify.com/embed/episode/0VGlCsSrgwdnZSGlrMk7VZ" }
+  { title: "Brothers", file: "music/Brothers.mp3", spotify: "https://open.spotify.com/embed/episode/5ZP1M95GEYUP29RuBnvBOv" },
+  { title: "Love Love Love", file: "music/Love Love Love.mp3", spotify: "https://open.spotify.com/embed/episode/5wxclPQLkFSSrzklJrBRRu" },
+  { title: "TAKE OFF YOUR DRESS", file: "music/TAKE OFF YOUR DRESS.mp3", spotify: "https://open.spotify.com/embed/episode/1oVGAXAw1ih4krCwkCTtAl" },
+  { title: "Deja Vu", file: "music/Deja Vu.mp3", spotify: "https://open.spotify.com/embed/episode/1tgLB3cvLAuF0DnywqjCpH" },
+  { title: "L.A Monster", file: "music/L.A Monster.mp3", spotify: "https://open.spotify.com/embed/episode/0XpYsv1e3oxLe0Cjum5EB4" },
+  { title: "BULLY (Old)", file: "music/BULLY (Old).mp3", spotify: "https://open.spotify.com/embed/episode/7Aac5V3wkCNBZK4K0hBL0e" },
+  { title: "Wheels Fall Off V1", file: "music/Wheels Fall Off V1.mp3", spotify: "https://open.spotify.com/embed/episode/1tSn2L12n4sZyQMXxPzlH8" },
+  { title: "CIRCLES", file: "music/CIRCLES.mp3", spotify: "https://open.spotify.com/embed/episode/5fYKxnYG7sU0HyP8QiXCv6" },
+  { title: "This One Here (War)", file: "music/This One Here (War).mp3", spotify: "https://open.spotify.com/embed/episode/1hSlib66n6eySURYXORMfj" },
+  { title: "BIANCA", file: "music/BIANCA.mp3", spotify: "https://open.spotify.com/embed/episode/3SXO4uAzCug0Ch9p3mR44Z" },
+  { title: "LOUIE BAGS", file: "music/LOUIE BAGS v1.mp3", spotify: "https://open.spotify.com/embed/episode/2sJJuhpCFdop36narkKOc3" },
+  { title: "Us Placers", file: "music/Us Placers.mp3", spotify: "https://open.spotify.com/embed/episode/5U70qpzIZCIYYwmIaWm5Iq" },
+  { title: "GOD LEVEL", file: "music/GOD LEVEL.mp3", spotify: "https://open.spotify.com/embed/episode/6sGthht5X92ngQUvsAc4BO" },
+  { title: "Maria", file: "music/Maria.mp3", spotify: "https://open.spotify.com/embed/episode/7fBKTEH4HqkWeXkatk6VCb" },
+  { title: "Young Folks", file: "music/Young Folks.mp3", spotify: "https://open.spotify.com/embed/episode/6xSbKKJbGxa9CWcyqeaar2" },
+  { title: "80 Degrees", file: "music/80 Degrees.mp3", spotify: "https://open.spotify.com/embed/episode/72XIAbZyUzlTM3wUuS23cX" },
+  { title: "Melrose", file: "music/Melrose.mp3", spotify: "https://open.spotify.com/embed/episode/44RRhvA7tWMkDPHEiCtjxq" },
 ];
 
 // --- INITIALIZATION --- //
 document.getElementById('instagramBtn').href = SITE_SETTINGS.instagramLink;
+
+// --- BUILD CAROUSEL --- //
+const track = document.getElementById('carouselTrack');
+let currentSlide = 0;
+
+carouselData.forEach(data => {
+  const slide = document.createElement('div');
+  slide.className = 'carousel-slide';
+  slide.style.backgroundImage = `url('${data.image}')`;
+  
+  // Conditionally add button if text exists
+  let buttonHTML = data.buttonText ? `<a href="${data.link}" class="carousel-action-btn">${data.buttonText}</a>` : '';
+
+  slide.innerHTML = `
+    <div class="carousel-content">
+      <h2 class="carousel-title">${data.title}</h2>
+      <div class="carousel-bottom">
+        <p class="carousel-text">${data.text}</p>
+        ${buttonHTML}
+      </div>
+    </div>
+  `;
+  track.appendChild(slide);
+});
+
+const updateCarousel = () => {
+  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+};
+
+document.getElementById('nextSlide').addEventListener('click', () => {
+  currentSlide = (currentSlide + 1) % carouselData.length;
+  updateCarousel();
+});
+
+document.getElementById('prevSlide').addEventListener('click', () => {
+  currentSlide = (currentSlide - 1 + carouselData.length) % carouselData.length;
+  updateCarousel();
+});
+
+// --- BUILD TRACK GRID --- //
 const grid = document.getElementById('trackGrid');
 
 function createTrackCard(track) {
@@ -553,7 +779,6 @@ musicLibrary.forEach(track => {
 });
 
 // --- INTERACTIVITY --- //
-
 const searchInput = document.getElementById('searchInput');
 searchInput.addEventListener('input', () => {
   const query = searchInput.value.toLowerCase();
@@ -590,24 +815,21 @@ const mixBtn = document.getElementById('mixBtn');
 const mixModal = document.getElementById('mixModal');
 const closeMixModal = document.getElementById('closeMixModal');
 
-// Open modal
 mixBtn.addEventListener('click', () => {
   mixModal.classList.add('show');
 });
 
-// Close modal when X is clicked
 closeMixModal.addEventListener('click', () => {
   mixModal.classList.remove('show');
 });
 
-// Close modal when clicking outside the box
 mixModal.addEventListener('click', (e) => {
   if (e.target === mixModal) {
     mixModal.classList.remove('show');
   }
 });
 
-// --- UPDATED THEME LOGIC --- //
+// --- THEME LOGIC --- //
 const settingsPanel = document.getElementById('settingsPanel');
 document.getElementById('settingsBtn').onclick = () => settingsPanel.classList.toggle('show');
 
