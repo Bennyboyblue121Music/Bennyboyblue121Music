@@ -757,6 +757,8 @@ const musicLibrary = [
   { title: "Young Folks", file: "music/Young Folks.mp3", spotify: "https://open.spotify.com/embed/episode/6xSbKKJbGxa9CWcyqeaar2" },
   { title: "80 Degrees", file: "music/80 Degrees.mp3", spotify: "https://open.spotify.com/embed/episode/72XIAbZyUzlTM3wUuS23cX" },
   { title: "Melrose", file: "music/Melrose.mp3", spotify: "https://open.spotify.com/embed/episode/44RRhvA7tWMkDPHEiCtjxq" },
+  { title: "Charkas", file: "music/Charkas.mp3", spotify: "https://open.spotify.com/embed/episode/3o4fdAbsvgXYaksAii7TDk" },
+  { title: "All Falls Down (Live In LA @ Sofi Stadium)", file: "music/All Falls Down (Live In LA @ Sofi Stadium).mp4", spotify: "https://open.spotify.com/embed/episode/3iz6m2GmoYsLWIJYuitAYg" },
 ];
 
 // --- INITIALIZATION --- //
@@ -772,7 +774,8 @@ carouselData.forEach(data => {
   slide.className = 'carousel-slide';
   slide.style.backgroundImage = `url('${data.image}')`;
   
-  let buttonHTML = data.buttonText ? `<a href="${data.link}" class="carousel-action-btn">${data.buttonText}</a>` : '';
+  // Added target="_blank" here to open carousel links in a new tab
+  let buttonHTML = data.buttonText ? `<a href="${data.link}" class="carousel-action-btn" target="_blank">${data.buttonText}</a>` : '';
 
   slide.innerHTML = `
     <div class="carousel-content">
@@ -829,8 +832,9 @@ function createTrackCard(track) {
        </details>`
     : `<div class="unavailable">Not available on streaming platforms</div>`;
 
+  // Added target="_blank" here just to be completely sure downloads trigger externally if needed
   let downloadBtn = SITE_SETTINGS.showDownloadButton 
-    ? `<a href="${track.file}" download class="download-btn">Download Audio</a>`
+    ? `<a href="${track.file}" download class="download-btn" target="_blank">Download Audio</a>`
     : ``;
 
   card.innerHTML = `
