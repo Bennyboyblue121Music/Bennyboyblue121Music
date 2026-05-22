@@ -27,6 +27,17 @@
     --shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
   }
 
+  /* NEW: Midnight Blue Theme */
+  body.blue {
+    --bg-color: #0a192f;
+    --card-bg: #172a45;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-color: #1e3a8a;
+    --accent-color: #38bdf8;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+
   * {
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -47,7 +58,9 @@
     border-bottom: 1px solid var(--border-color);
     z-index: 100;
     padding: 15px 0;
+    /* Fixed iOS Blur Support */
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     background: color-mix(in srgb, var(--bg-color) 80%, transparent);
   }
 
@@ -241,7 +254,6 @@
     .next-arrow { right: 10px; }
   }
 
-
   /* =========================
      ORIGINAL STYLES BELOW
      ========================= */
@@ -358,7 +370,8 @@
     color: var(--text-primary);
   }
 
-  details iframe {
+  /* Optimized iframe container */
+  .iframe-container iframe {
     width: 100%;
     height: 80px;
     border: none;
@@ -392,6 +405,7 @@
     box-shadow: var(--shadow);
     display: none;
     z-index: 200;
+    min-width: 200px;
   }
 
   .settings-overlay.show {
@@ -525,7 +539,6 @@
     align-self: flex-start;
   }
 
-  /* NEW: Donation Popup Styles */
   .donation-buttons {
     display: flex;
     gap: 10px;
@@ -596,8 +609,7 @@
 <div class="carousel-wrapper">
   <button class="carousel-arrow prev-arrow" id="prevSlide">❮</button>
   <div class="carousel-container">
-    <div class="carousel-track" id="carouselTrack">
-      </div>
+    <div class="carousel-track" id="carouselTrack"></div>
   </div>
   <button class="carousel-arrow next-arrow" id="nextSlide">❯</button>
 </div>
@@ -611,13 +623,12 @@
     <button class="filter-btn" data-filter="t-z">T–Z</button>
   </div>
 
-  <div class="grid" id="trackGrid">
-    </div>
+  <div class="grid" id="trackGrid"></div>
 </div>
 
 <div class="settings-overlay" id="settingsPanel">
   <h4>Preferences</h4>
-  <button class="filter-btn" id="toggleTheme" style="width: 100%;">Toggle Dark Mode</button>
+  <button class="filter-btn" id="toggleTheme" style="width: 100%; margin-bottom: 8px;">Theme: Light</button>
   
   <div class="settings-checkbox-row">
     <input type="checkbox" id="hideDonationToggle">
@@ -632,7 +643,6 @@
       <button class="close-btn" id="closeMixModal">×</button>
     </div>
     <div class="mix-list">
-      
       <div class="mix-item">
         <img src="Img/Bennyboyblue121's Mix/Bennyboyblue121's Mix-artwork.jpg" alt="Mix Cover" class="mix-cover">
         <div class="mix-info">
@@ -650,7 +660,6 @@
           <a href="https://untitled.stream/library/project/EpYRUA5OTFjOWEV4UbHUb" class="mix-link" target="_blank">Listen Now</a>
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -677,11 +686,10 @@
 const SITE_SETTINGS = {
   showDownloadButton: true,
   instagramLink: "https://www.instagram.com/bennyboyblue121/",
-  carouselInterval: 10000, // 1000 = 1 second
+  carouselInterval: 10000, 
   buyMeACoffeeLink: "https://buymeacoffee.com/bennyboyblue121" 
 };
 
-// --- UPDATED CAROUSEL DATA (LOCAL IMAGES) --- //
 const carouselData = [
   {
     title: "Bennyboyblue121's Discord",
@@ -725,7 +733,7 @@ const musicLibrary = [
   { title: "The Storm", file: "music/The Storm.mp3", spotify: "https://open.spotify.com/embed/episode/3Llk90jGIQJ2ZfLDRc6sc0" },
   { title: "HOLD TIGHT", file: "music/Hold Tight.mp3", spotify: "https://open.spotify.com/embed/episode/6IiCluNO0Indjc0uKUrlgm" },
   { title: "POWER Remix", file: "music/POWER Remix.mp3", spotify: "https://open.spotify.com/embed/episode/7LrozxrlPRJfSlLV2tcns0" },
-  { title: "Can U Be", file: "music/Can U Be.mp3", spotify: "https://open.spotify.com/embed/episode/28XZUYCoXOk2hM5FWBuuh2  " },
+  { title: "Can U Be", file: "music/Can U Be.mp3", spotify: "https://open.spotify.com/embed/episode/28XZUYCoXOk2hM5FWBuuh2" },
   { title: "Christian Dior Denim Flow", file: "music/Christian Dior Denim Flow.mp3", spotify: "https://open.spotify.com/embed/episode/1qXGoeb2wRVVazqBvHhBXQ" },
   { title: "CASH TO BURN", file: "music/Cash to Burn.mp3", spotify: "https://open.spotify.com/embed/episode/01bpqHJ4vX9FfBkNLD7va9" },
   { title: "PABLO", file: "music/PABLO.mp3", spotify: "https://open.spotify.com/embed/episode/11nvKmUA96HtJ1OwSHiXHd" },
@@ -788,7 +796,6 @@ carouselData.forEach(data => {
   slide.className = 'carousel-slide';
   slide.style.backgroundImage = `url('${data.image}')`;
   
-  // Added target="_blank" here to open carousel links in a new tab
   let buttonHTML = data.buttonText ? `<a href="${data.link}" class="carousel-action-btn" target="_blank">${data.buttonText}</a>` : '';
 
   slide.innerHTML = `
@@ -828,7 +835,6 @@ document.getElementById('prevSlide').addEventListener('click', () => {
   startCarouselTimer();
 });
 
-// Start the auto-rotation when the page loads
 startCarouselTimer();
 
 // --- BUILD TRACK GRID --- //
@@ -839,14 +845,15 @@ function createTrackCard(track) {
   card.className = 'track-card';
   card.dataset.title = track.title.toLowerCase();
 
+  // CRITICAL OPTIMIZATION: Removed instant rendering of 60+ heavy iframes.
+  // Instead, we save the url as a data attribute, rendering it only when expanded.
   let spotifySection = track.spotify 
-    ? `<details>
+    ? `<details class="spotify-details" data-src="${track.spotify}">
          <summary>Spotify Link</summary>
-         <iframe src="${track.spotify}"></iframe>
+         <div class="iframe-container"></div>
        </details>`
     : `<div class="unavailable">Not available on streaming platforms</div>`;
 
-  // Added target="_blank" here just to be completely sure downloads trigger externally if needed
   let downloadBtn = SITE_SETTINGS.showDownloadButton 
     ? `<a href="${track.file}" download class="download-btn" target="_blank">Download Audio</a>`
     : ``;
@@ -869,6 +876,17 @@ function createTrackCard(track) {
 musicLibrary.forEach(track => {
   grid.appendChild(createTrackCard(track));
 });
+
+// Lazy-Load Spotify Iframes on Request (Fixes iPhone Crashes/Slowdown)
+grid.addEventListener('toggle', (e) => {
+  if (e.target.tagName === 'DETAILS' && e.target.open) {
+    const container = e.target.querySelector('.iframe-container');
+    const src = e.target.getAttribute('data-src');
+    if (container && !container.innerHTML && src) {
+      container.innerHTML = `<iframe src="${src}"></iframe>`;
+    }
+  }
+}, true);
 
 // --- INTERACTIVITY --- //
 const searchInput = document.getElementById('searchInput');
@@ -912,6 +930,7 @@ mixBtn.addEventListener('click', () => {
 });
 
 closeMixModal.addEventListener('click', () => {
+  mixModal.classList.remove('remove'); // Safely handles UI updates
   mixModal.classList.remove('show');
 });
 
@@ -921,7 +940,7 @@ mixModal.addEventListener('click', (e) => {
   }
 });
 
-// --- DONATION MODAL LOGIC --- //
+// --- DONATION MODAL LOGIC (FIXED TO DEFAULT TO AUTO-DISABLED) --- //
 const donationModal = document.getElementById('donationModal');
 const closeDonationModalBtn = document.getElementById('closeDonationModalBtn');
 const donateLinkBtn = document.getElementById('donateLinkBtn');
@@ -929,12 +948,13 @@ const hideDonationToggle = document.getElementById('hideDonationToggle');
 
 donateLinkBtn.href = SITE_SETTINGS.buyMeACoffeeLink;
 
-// Check local storage to see if they've opted out
-const userDisabledDonationPopup = localStorage.getItem('hideDonationPopup') === 'true';
+// FIX: Check local preference, but default to 'true' (hidden) if the user has never visited before
+const savedDonationPref = localStorage.getItem('hideDonationPopup');
+const userDisabledDonationPopup = savedDonationPref === null ? true : savedDonationPref === 'true';
+
 hideDonationToggle.checked = userDisabledDonationPopup;
 
 if (!userDisabledDonationPopup) {
-  // Show popup 1 second after page loads
   setTimeout(() => {
     donationModal.classList.add('show');
   }, 1000);
@@ -948,40 +968,44 @@ donateLinkBtn.addEventListener('click', () => {
   donationModal.classList.remove('show');
 });
 
-// Update preference when setting is toggled
 hideDonationToggle.addEventListener('change', (e) => {
   localStorage.setItem('hideDonationPopup', e.target.checked);
 });
 
-
-// --- THEME LOGIC --- //
+// --- THEME LOGIC (UPDATED WITH THREE SELECTIONS: LIGHT, DARK, BLUE) --- //
 const settingsPanel = document.getElementById('settingsPanel');
 document.getElementById('settingsBtn').onclick = () => settingsPanel.classList.toggle('show');
 
 const toggleThemeBtn = document.getElementById('toggleTheme');
+const themes = ['light', 'dark', 'blue'];
 
 const applyTheme = (theme) => {
-  if (theme === 'dark') {
-    document.body.classList.add('dark');
-  } else {
-    document.body.classList.remove('dark');
+  document.body.classList.remove('dark', 'blue');
+  if (theme !== 'light') {
+    document.body.classList.add(theme);
   }
+  toggleThemeBtn.textContent = `Theme: ${theme.charAt(0).toUpperCase() + theme.slice(1)}`;
 };
 
+let currentThemeIndex = 0;
 const savedTheme = localStorage.getItem('theme');
 const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-if (savedTheme) {
+if (savedTheme && themes.includes(savedTheme)) {
+  currentThemeIndex = themes.indexOf(savedTheme);
   applyTheme(savedTheme);
 } else if (systemPrefersDark) {
+  currentThemeIndex = 1; // Default to dark
   applyTheme('dark');
+} else {
+  applyTheme('light');
 }
 
 toggleThemeBtn.onclick = () => {
-  const isCurrentlyDark = document.body.classList.contains('dark');
-  const newTheme = isCurrentlyDark ? 'light' : 'dark';
-  applyTheme(newTheme);
-  localStorage.setItem('theme', newTheme);
+  currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+  const nextTheme = themes[currentThemeIndex];
+  applyTheme(nextTheme);
+  localStorage.setItem('theme', nextTheme);
 };
 </script>
 </body>
